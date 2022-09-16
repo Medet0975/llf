@@ -15,7 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1',
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost'
                  ]
 
 
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'category',
     'accounts',
     'announcements',
@@ -44,8 +45,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'main.urls'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
+ROOT_URLCONF = 'core.urls'
+AUTH_USER_MODEL = 'accounts.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -62,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
@@ -124,3 +131,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'medetabzaparov@gmail.com'
+EMAIL_HOST_PASSWORD = 'yixzmppyengpuwwz'
+
