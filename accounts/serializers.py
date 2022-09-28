@@ -32,8 +32,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validation_data):
+        password = validation_data.pop("password")
         user = User.objects.create(**validation_data)
         user.create_activation_code()
+        user.set_password(password)
         user.save()
         send_code_email(user)
         return user

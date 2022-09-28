@@ -5,8 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.views import TokenObtainPairView
 from . serializers import UserRegisterSerializer, LoginSerializer
 from django.contrib.auth import get_user_model
+from .serializers_iwt import LoginJWTSerializer
+
 
 User = get_user_model()
 # Create your views here.
@@ -47,3 +50,6 @@ class LogoutAPIView(APIView):
         token = Token.objects.get(user=request.user)
         token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class LoginJWTApiView(TokenObtainPairView):
+    serializer_class = LoginJWTSerializer
